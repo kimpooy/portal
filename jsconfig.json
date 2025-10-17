@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/js/*"]
+    }
+  },
+  "include": ["resources/js/**/*.js", "resources/js/**/*.vue"],
+  "vueCompilerOptions": {
+    "globalTypesPath": "./node_modules/vue"
+  }
+}
+

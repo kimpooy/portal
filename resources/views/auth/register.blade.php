@@ -1,0 +1,120 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+
+        <div class="text-center mb-6">
+            <img src="{{ asset('images/DSWDLogo.png') }}" alt="Logo" class="w-16 h-16 mx-auto mb-3">
+            <h2 class="text-3xl font-bold text-blue-700">Register</h2>
+            <p class="text-gray-500 text-sm">Create your recruitment account</p>
+        </div>
+
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <div class="mb-4">
+                <label for="first_name" class="block text-sm font-semibold text-gray-700 mb-1">First Name</label>
+                <input id="first_name" type="text" name="first_name" value="{{ old('first_name') }}" required autofocus
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="mb-4">
+                <label for="middle_name" class="block text-sm font-semibold text-gray-700 mb-1">Middle Name (Optional)</label>
+                <input id="middle_name" type="text" name="middle_name" value="{{ old('middle_name') }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="mb-4">
+                 <label for="last_name" class="block text-sm font-semibold text-gray-700 mb-1">Last Name</label>
+                <input id="last_name" type="text" name="last_name" value="{{ old('last_name') }}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200">
+            </div>
+
+            <div class="mb-4">
+                 <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200">
+                <p class="text-xs text-gray-500 mt-1">
+                    Use your <span class="font-semibold">@dswd.gov.ph</span> email to register as admin.
+                </p>
+            </div>
+
+            <div class="mb-4 relative">
+                 <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                <input id="password" type="password" name="password" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 pr-10">
+                <button type="button" onclick="togglePassword('password', 'icon1')"
+                        class="absolute inset-y-0 right-2 top-6 px-3 flex items-center text-gray-500">
+                    <svg id="icon1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="mb-6 relative">
+                 <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-1">Confirm Password</label>
+                <input id="password_confirmation" type="password" name="password_confirmation" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 pr-10">
+                <button type="button" onclick="togglePassword('password_confirmation', 'icon2')"
+                        class="absolute inset-y-0 right-2 top-6 px-3 flex items-center text-gray-500">
+                    <svg id="icon2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <a href="{{ route('login') }}" class="text-blue-600 hover:underline text-sm">
+                    Already have an account? Login
+                </a>
+                <button type="submit"
+                        class="bg-blue-600 text-white px-5 py-2 rounded-md font-semibold hover:bg-blue-700 transition">
+                    Register
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.973 9.973 0 012.293-3.952M9.88 9.88a3 3 0 104.24 4.24" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M3 3l18 18" />`;
+    } else {
+        input.type = "password";
+        icon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+    }
+}
+</script>
+@endsection
