@@ -123,7 +123,7 @@
                 @endphp
 
                 @foreach($educations as $index => $edu)
-                    <div class="grid grid-cols-5 gap-4 bg-white p-4 border rounded-lg">
+                    <div class="education-entry grid grid-cols-5 gap-4 bg-white p-4 border rounded-lg relative" data-education-entry>
                         <button type="button" onclick="removeEducation(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-sm">X</button>
 
                         <div>
@@ -151,7 +151,9 @@
             </div>
 
             <div class="mt-4">
-                <button type="button" onclick="addEducation()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Add More</button>
+                <button type="button" onclick="addEducation()" 
+                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Add More
+                </button>
             </div>
 
             <script>
@@ -159,26 +161,51 @@
                 function addEducation() {
                     const section = document.getElementById('education-section');
                     const div = document.createElement('div');
-                    div.classList.add('grid', 'grid-cols-5', 'gap-4', 'bg-white', 'p-4', 'border', 'rounded-lg');
+                    div.classList.add('education-entry', 'grid', 'grid-cols-5', 'gap-4', 'bg-white', 'p-4', 'border', 'rounded-lg','relative');
+                    div.setAttribute('data-education-entry', '1');
                     div.innerHTML = `
-                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Level</label>
-                        <input type="text" name="educations[${eduIndex}][level]" placeholder="e.g., College" class="w-full border-gray-300 border rounded p-2"></div>
-                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">School Name</label>
-                        <input type="text" name="educations[${eduIndex}][school_name]" placeholder="School Name" class="w-full border-gray-300 border rounded p-2"></div>
-                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Degree / Course</label>
-                        <input type="text" name="educations[${eduIndex}][degree_course]" placeholder="Degree / Course" class="w-full border-gray-300 border rounded p-2"></div>
-                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Year Graduated</label>
-                        <input type="text" name="educations[${eduIndex}][year_graduated]" placeholder="e.g., 2024" class="w-full border-gray-300 border rounded p-2"></div>
-                        <div><label class="block text-sm font-semibold text-gray-700 mb-1">Honors Received</label>
-                        <input type="text" name="educations[${eduIndex}][honors_received]" placeholder="Optional" class="w-full border-gray-300 border rounded p-2"></div>
+                        <button type="button" onclick="removeEducation(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-sm">X</button>  
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Level</label>
+                            <input type="text" name="educations[${eduIndex}][level]" placeholder="e.g., College" class="w-full border-gray-300 border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">School Name</label>
+                            <input type="text" name="educations[${eduIndex}][school_name]" placeholder="School Name" class="w-full border-gray-300 border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Degree / Course</label>
+                            <input type="text" name="educations[${eduIndex}][degree_course]" placeholder="Degree / Course" class="w-full border-gray-300 border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Year Graduated</label>
+                            <input type="text" name="educations[${eduIndex}][year_graduated]" placeholder="e.g., 2024" class="w-full border-gray-300 border rounded p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Honors Received</label>
+                            <input type="text" name="educations[${eduIndex}][honors_received]" placeholder="Optional" class="w-full border-gray-300 border rounded p-2">
+                        </div>
                     `;
                     section.appendChild(div);
                     eduIndex++;
 
                     function removeEducation(button) {
-                        const entry = button.closest('education-entry');
-                        entry.remove();
+                            let entry = button.closest('[data-education-entry]'); 
+                            button.closest('.education-entry');
+                            if (!entry) {
+                                let el = button.parentElement;
+                                while (el && el !==document.body) {
+                                    if (el.classList && el.classList.contains('grid') && el.classList.contains('relative')) {
+                                        entry = el;
+                                        break;
+                                    }
+                                }
+                                el = el.parentElement;
+                            }
                     }
+                    if (entry) 
+                        entry.remove();
+                      
                 }
             </script>
         </div>
