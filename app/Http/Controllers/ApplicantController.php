@@ -13,6 +13,7 @@ use App\Models\Reference;
 use App\Models\Training;
 use App\Models\Application;
 use App\Models\Job;
+use Inertia\Inertia;
 
 
 
@@ -211,17 +212,27 @@ class ApplicantController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $profile = $user->applicant;
+        $applicant = $user->applicant;
 
-        if (!$profile) {
+        if (!$applicant) {
             return redirect()->route('applicant.profile.create')
                 ->with('warning', 'Please complete your profile first.');
         }
 
         $jobs = Job::latest()->get();
-        $applications = $profile->applications()->with('job')->latest()->get();
+        $applications = $applicant->applications()->with('job')->latest()->get();
 
-        return view('applicant.dashboard', compact('user', 'profile', 'jobs', 'applications'));
+        return inertia::render('Applicant/Dashboard',[
+            'user' => $user,
+            'applicant' =>$applicant->load([
+                'address',
+                'educations',
+                'workExperiences',
+                'eligibilities'
+            ]),
+            'jobs' => $jobs,
+            'applications' => $applications,
+        ]);
     }
 
     /** Apply for a job */

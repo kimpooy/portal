@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-//Applicant
+//Applicant 
 Route::middleware(['auth', 'role:applicant'])->group(function () {
     Route::get('/applicant/dashboard', [ApplicantController::class, 'dashboard'])->name('applicant.dashboard');
     Route::get('/applicant/profile/create', [ApplicantController::class, 'create'])->name('applicant.profile.create');
