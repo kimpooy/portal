@@ -52,9 +52,9 @@ class Applicant extends Model
     {
         return $this->hasMany(Eligibility::class);
     }
-    public function WorkExperiences()
+    public function workExperiences()
     {
-        return $this->hasMany(WorkExperience::class);
+        return $this->hasMany(workExperience::class);
     }
     public function trainings()
     {

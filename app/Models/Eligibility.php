@@ -10,6 +10,8 @@ class Eligibility extends Model
 {
     use HasFactory;
 
+    protected $table = 'eligibilities';
+
     protected $fillable = [
         'applicant_id',
         'eligbility_type',

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('level')->nullable(); // e.g. High School, College, Master’s
             $table->string('school_name')->nullable();
             $table->string('degree_course')->nullable();
-            $table->string('year_graduated', 4)->nullable();
+            $table->string('year_graduated', 7)->nullable();
             $table->string('honors_received')->nullable();
 
             $table->timestamps();

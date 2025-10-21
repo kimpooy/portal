@@ -52,7 +52,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-1">{{ $label }}</label>
                         <input type="{{ $field === 'zip_code' ? 'number' : 'text' }}"
                                name="{{ $field }}"
-                               value="{{ old($field, $profile->$field ?? ($field === 'country' ? 'Philippines' : '')) }}"
+                               value="{{ old($field, $profile->address->$field ?? ($field === 'country' ? 'Philippines' : '')) }}"
                                placeholder="{{ $label }}"
                                class="w-full border-gray-300 border rounded p-2">
                     </div>
@@ -179,7 +179,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Year Graduated</label>
-                            <input type="year" name="educations[${eduIndex}][year_graduated]" placeholder="e.g., 2024" class="w-full border-gray-300 border rounded p-2">
+                            <input type="month" name="educations[${eduIndex}][year_graduated]" placeholder="e.g., 2024" class="w-full border-gray-300 border rounded p-2">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Honors Received</label>
@@ -283,38 +283,38 @@
 
             <div id="workexperience-section" class="space-y-4">
                 @php
-                    $work_experiences = old('work_experiences', $profile->workExperiences ?? [
+                    $workexperiences = old('workexperiences', $profile->workExperiences ?? [
                         ['company_name' => '', 'position_title' => '', 'status_of_appointment' => '', 'monthly_salary' => '', 'inclusive_date_start' => '', 'inclusive_date_end' => '']
                     ]);
                 @endphp
 
-                @foreach($work_experiences as $index => $work)
+                @foreach($workexperiences as $index => $work)
                 <div class="workexperience-entry grid grid-cols-3 gap-2 bg-white p-4 border rounded-lg relative" data-workexperience-entry>
                     <button type="button" onclick="removeWorkExperience(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-sm">X</button>  
                     
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Inclusive Date Start</label>
-                        <input type="date" name="work_experiences[{{ $index }}][inclusive_date_start]" value="{{ $work['inclusive_date_start'] ?? '' }}" class="w-full border-gray-300 border rounded p-2">
+                        <input type="date" name="workexperiences[{{ $index }}][inclusive_date_start]" value="{{ $work['inclusive_date_start'] ?? '' }}" class="w-full border-gray-300 border rounded p-2">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Inclusive Date End</label>
-                        <input type="date" name="work_experiences[{{ $index }}][inclusive_date_end]" value="{{ $work['inclusive_date_end'] ?? '' }}" class="w-full border-gray-300 border rounded p-2">
+                        <input type="date" name="workexperiences[{{ $index }}][inclusive_date_end]" value="{{ $work['inclusive_date_end'] ?? '' }}" class="w-full border-gray-300 border rounded p-2">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Company Name</label>
-                        <input type="text" name="work_experiences[{{ $index }}][company_name]" value="{{ $work['company_name'] ?? '' }}" placeholder="Company Name" class="w-full border-gray-300 border rounded p-2">
+                        <input type="text" name="workexperiences[{{ $index }}][company_name]" value="{{ $work['company_name'] ?? '' }}" placeholder="Company Name" class="w-full border-gray-300 border rounded p-2">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Position Title</label>
-                        <input type="text" name="work_experiences[{{ $index }}][position_title]" value="{{ $work['position_title'] ?? '' }}" placeholder="Position Title" class="w-full border-gray-300 border rounded p-2">
+                        <input type="text" name="workexperiences[{{ $index }}][position_title]" value="{{ $work['position_title'] ?? '' }}" placeholder="Position Title" class="w-full border-gray-300 border rounded p-2">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Status of Appointment</label>
-                        <input type="text" name="work_experiences[{{ $index }}][status_of_appointment]" value="{{ $work['status_of_appointment'] ?? '' }}" placeholder="e.g. Permanent, Contract of Service" class="w-full border-gray-300 border rounded p-2">
+                        <input type="text" name="workexperiences[{{ $index }}][status_of_appointment]" value="{{ $work['status_of_appointment'] ?? '' }}" placeholder="e.g. Permanent, Contract of Service" class="w-full border-gray-300 border rounded p-2">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Monthly Salary</label>
-                        <input type="number" name="work_experiences[{{ $index }}][monthly_salary]" value="{{ $work['monthly_salary'] ?? '' }}" placeholder="Monthly Salary" class="w-full border-gray-300 border rounded p-2">
+                        <input type="number" name="workexperiences[{{ $index }}][monthly_salary]" value="{{ $work['monthly_salary'] ?? '' }}" placeholder="Monthly Salary" class="w-full border-gray-300 border rounded p-2">
                     </div>
                 </div>
                 @endforeach
@@ -328,7 +328,7 @@
             </div>
 
             <script>
-                let workIndex = Number("{{ count($work_experiences) }}");
+                let workIndex = Number("{{ count($workexperiences) }}");
 
                 function addWorkExperience() {
                     const section = document.getElementById('workexperience-section');
@@ -340,27 +340,27 @@
                         <button type="button" onclick="removeWorkExperience(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-sm">X</button>  
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Inclusive Date Start</label>
-                            <input type="date" name="work_experiences[${workIndex}][inclusive_date_start]" class="w-full border-gray-300 border rounded p-2">
+                            <input type="date" name="workexperiences[${workIndex}][inclusive_date_start]" class="w-full border-gray-300 border rounded p-2">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Inclusive Date End</label>
-                            <input type="date" name="work_experiences[${workIndex}][inclusive_date_end]" class="w-full border-gray-300 border rounded p-2">
+                            <input type="date" name="workexperiences[${workIndex}][inclusive_date_end]" class="w-full border-gray-300 border rounded p-2">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Company Name</label>
-                            <input type="text" name="work_experiences[${workIndex}][company_name]" placeholder="Company Name" class="w-full border-gray-300 border rounded p-2">
+                            <input type="text" name="workexperiences[${workIndex}][company_name]" placeholder="Company Name" class="w-full border-gray-300 border rounded p-2">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Position Title</label>
-                            <input type="text" name="work_experiences[${workIndex}][position_title]" placeholder="Position Title" class="w-full border-gray-300 border rounded p-2">
+                            <input type="text" name="workexperiences[${workIndex}][position_title]" placeholder="Position Title" class="w-full border-gray-300 border rounded p-2">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Status of Appointment</label>
-                            <input type="text" name="work_experiences[${workIndex}][status_of_appointment]" placeholder="e.g. Permanent, Contract of Service" class="w-full border-gray-300 border rounded p-2">
+                            <input type="text" name="workexperiences[${workIndex}][status_of_appointment]" placeholder="e.g. Permanent, Contract of Service" class="w-full border-gray-300 border rounded p-2">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Monthly Salary</label>
-                            <input type="number" name="work_experiences[${workIndex}][monthly_salary]" placeholder="Monthly Salary" class="w-full border-gray-300 border rounded p-2">
+                            <input type="number" name="workexperiences[${workIndex}][monthly_salary]" placeholder="Monthly Salary" class="w-full border-gray-300 border rounded p-2">
                         </div>
                     `;
                     
@@ -476,7 +476,7 @@
                 @foreach(['pds', 'tor', 'diploma', 'eligibility_certificate', 'certificate_of_trainings', 'IPCR'] as $file)
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">{{ strtoupper($file) }} (PDF)</label>
-                        <input type="file" name="{{ $file }}" class="w-full border-gray-300 border rounded p-2">
+                        <input type="file" name="{{ $file }}" accept=".pdf" class="w-full border-gray-300 border rounded p-2">
                         @if($profile && $profile->$file)
                             <a href="{{ asset('storage/'.$profile->$file) }}" target="_blank" class="text-sm text-blue-600 hover:underline">View Current File</a>
                         @endif

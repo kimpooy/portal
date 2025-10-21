@@ -42,7 +42,10 @@ class ApplicantController extends Controller
                 'phone_number' => 'required|string|max:50',
                 'birth_date' => 'required|date',
                 'gender' => 'required|string|max:20',
-
+                'highest_education' => 'required|string|max:20',
+                'civil_status' => 'required|string|max:20',
+                'religion' => 'required|string|max:20',
+ 
                 // Files
                 'pds' => 'nullable|file|mimes:pdf|max:5120',
                 'tor' => 'nullable|file|mimes:pdf|max:5120',
@@ -63,7 +66,8 @@ class ApplicantController extends Controller
                 }
             }
 
-            $applicant = Applicant::create($validated);
+            $applicant = Applicant::updateOrCreate(['user_id' => Auth::id()],
+            $validated);
 
             $applicant->address()->create([
                 'address' => $request->address,
@@ -81,6 +85,7 @@ class ApplicantController extends Controller
             if ($request->educations) {
                 foreach ($request->educations as $edu) {
                     if (!empty($edu['school_name'])) {
+                        $edu['year_graduated'] = substr($edu['year_graduated'], 0, 4);
                         $applicant->educations()->create($edu);
                     }
                 }
@@ -97,7 +102,7 @@ class ApplicantController extends Controller
             if ($request->work_experiences) {
                 foreach ($request->work_experiences as $work) {
                     if (!empty($work['company_name'])) {
-                        $applicant->workExperiences()->create($work);
+                        $applicant->workexperiences()->create($work);
                     }
                 }
             }
@@ -113,7 +118,7 @@ class ApplicantController extends Controller
             if ($request->references) {
                 foreach ($request->references as $ref) {
                     if (!empty($ref['reference_name'])) {
-                        $applicant->references()->create($ref);
+                        $applicant->References()->create(["reference_name" => $ref['reference_name']]);
                     }
                 }
             }
@@ -179,6 +184,7 @@ class ApplicantController extends Controller
         if ($request->educations) {
             foreach ($request->educations as $edu) {
                 if (!empty($edu['school_name'])) {
+                     $edu['year_graduated'] = substr($edu['year_graduated'], 0, 4);
                     $profile->educations()->create($edu);
                 }
             }

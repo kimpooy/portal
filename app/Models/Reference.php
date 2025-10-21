@@ -9,6 +9,9 @@ use Illuminate\Testing\Fluent\Concerns\Has;
 class reference extends Model
 {
     use HasFactory;
+
+    protected $table = 'reference';
+
     protected $fillable = [
         'applicant_id',
         'reference_name',
