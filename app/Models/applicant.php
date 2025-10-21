@@ -16,45 +16,14 @@ class Applicant extends Model
         'first_name',
         'middle_name',
         'last_name',
-        'address',
-        'house_number',
-        'street',
-        'subdivision',
-        'barangay',
-        'municipality',
-        'city',
-        'province',
-        'country',
-        'zip_code',
         'phone_number',
         'email',
         'highest_education',
         'experience',
         'civil_status',
         'birth_date',
-        'Religion',
+        'religion',
         'gender',
-
-        'eligibility',
-        'eligibility_rating',
-        'eligibility_date',
-        'license_number',
-
-        'Inclusive_date_start',
-        'Inclusive_date_end',
-        'company_name',
-        'Position_title',
-        'status_of_appointment',
-        'monthly_salary',
-        'government_service',
-
-
-        'title_of_training',
-        'training_date_start',
-        'training_date_end',
-        'number_of_hours',
-        'conducted_by',
-
 
         'pds',
         'tor',
@@ -63,9 +32,6 @@ class Applicant extends Model
         'certificate_of_trainings',
         'IPCR',
 
-        'reference_name',
-        'reference_address',
-        'reference_phone',
     ];
 
 
@@ -82,5 +48,24 @@ class Applicant extends Model
     {
         return $this->hasMany(EducationalBackground::class);
     }
-
+    public function eligibilities()
+    {
+        return $this->hasMany(Eligibility::class);
+    }
+    public function WorkExperiences()
+    {
+        return $this->hasMany(WorkExperience::class);
+    }
+    public function trainings()
+    {
+        return $this->hasMany(Trainings::class);
+    }
+    public function references()
+    {
+        return $this->hasMany(Reference::class);
+    }
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
 }
