@@ -210,31 +210,22 @@ class ApplicantController extends Controller
     }
 
     /** Applicant Dashboard */
-    public function dashboard()
-    {
-        $user = Auth::user();
-        $applicant = $user->applicant ? $user->applicant->load([
-            'address',
-            'educations',
-            'workExperiences',
-            'eligibilities'
-        ]) : null;
+            public function dashboard()
+        {
+            $user = Auth::user();
+            $applicant = $user->applicant;
 
-        if (!$applicant) {
-            return redirect()->route('applicant.profile.create')
-                ->with('warning', 'Please complete your profile first.');
+            if (!$applicant) {
+                return redirect()->route('applicant.profile.create')
+                    ->with('warning', 'Please complete your profile first.');
+            }
+
+            $jobs = Job::latest()->get();
+            $applications = $applicant->applications()->with('job')->latest()->get();
+
+            return view('applicant.dashboard', compact('user', 'applicant', 'jobs', 'applications'));
         }
 
-        $jobs = Job::latest()->get();
-        $applications = $applicant->applications()->with('job')->latest()->get();
-
-        return inertia::render('Applicant/Dashboard',[
-            'user' => $user,
-            'applicant' =>$applicant,
-            'jobs' => $jobs,
-            'applications' => $applications,
-        ]);
-    }
 
     /** Apply for a job */
     public function apply($jobId)

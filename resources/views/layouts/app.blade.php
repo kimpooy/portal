@@ -28,13 +28,13 @@
             {{-- Logout button --}}
             <form method="POST" action="{{ route('logout') }}" class="inline ml-4">
                 @csrf
-                <button class="text-red-600 hover:underline">Logout</button>
+                <button class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700">Logout</button>
             </form>
         @else
             {{-- Show login/register only if not on welcome page --}}
             <div class="flex gap-4">
-                <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Login</a>
-                <a href="{{ route('register') }}" class="text-gray-700 hover:underline">Register</a>
+                <a href="{{ route('login') }}" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700    ">Login</a>
+                <a href="{{ route('register') }}" class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-blue-700">Register</a>
             </div>
         @endauth
     @endif

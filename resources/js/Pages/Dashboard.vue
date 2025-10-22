@@ -12,7 +12,7 @@ import { Head } from '@inertiajs/vue3';
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
                 Dashboard
-            </h2>
+            </h2>   
         </template>
 
         <div class="py-12">

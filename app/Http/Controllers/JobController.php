@@ -17,7 +17,8 @@ class JobController extends Controller
     // Show create form
     public function create()
     {
-        return view('admin.jobs.create');
+        $jobs = null;
+        return view('admin.jobs.form', compact('jobs'));
     }
 
     // Save new job
@@ -44,5 +45,35 @@ class JobController extends Controller
     {
         $job->delete();
         return redirect()->route('admin.jobs.index')->with('success', 'Job deleted successfully!');
+    }
+
+    // Edit a job
+    public function edit(Job $job)
+    {
+        return view('admin.jobs.edit', compact('jobs'));
+    }
+
+    // Update a job
+    public function update(Request $request, Job $job)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'employment_type' => 'required|string',
+            'location' => 'required|string',
+            'salary' => 'required|numeric',
+            'salary_grade' => 'required|string|max:50',
+            'qualifications' => 'required|string',
+            'application_deadline' => 'required|date',
+        ]); 
+        $job->update($request->all());
+        return redirect()->route('admin.jobs.index')->with('success', 'Job updated successfully!');
+    }
+
+    //Job openings for Applicants
+    public function Openings()
+    {
+        $jobs = Job::latest()->get();
+        return view('applicant.jobs', compact('jobs'));
     }
 }

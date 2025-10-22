@@ -4,7 +4,7 @@
 <div class="max-w-6xl mx-auto p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-blue-700">Manage Job Openings</h1>
-        <a href="{{ route('jobs.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded">+ New Job</a>
+        <a href="{{ route('admin.jobs.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded">+ New Job</a>
     </div>
 
     @if(session('success'))

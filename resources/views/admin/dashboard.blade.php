@@ -22,7 +22,11 @@
 
     <div class="mb-6 flex justify-between items-center">
         <h2 class="text-xl font-semibold">Recent Applicants</h2>
-        <a href="{{ route('jobs.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Manage Jobs</a>
+        <div class="flex justify-between space-x-4">
+            <a href="{{ route('admin.jobs.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Manage Jobs</a>
+            <a href="" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Manage Applicants</a>
+        </div>
+        
     </div>
 
     @if($applicants->isEmpty())
@@ -34,14 +38,14 @@
                     <tr>
                         <th class="p-3 text-left">Name</th>
                         <th class="p-3 text-left">Email</th>
-                        <th class="p-3 text-left">Position</th>
+                        <th class="p-3 text-left">Position Applied</th>
                         <th class="p-3 text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($applicants as $a)
                         <tr class="border-b hover:bg-gray-50">
-                            <td class="p-3">{{ $a->user->First_Name ?? '' }} {{ $a->user->Last_Name ?? '' }}</td>
+                            <td class="p-3">{{ $a->user->first_name ?? '' }} {{ $a->user->last_name ?? '' }}</td>
                             <td class="p-3">{{ $a->user->email ?? '' }}</td>
                             <td class="p-3">{{ $a->position ?? '—' }}</td>
                             <td class="p-3 text-sm">
