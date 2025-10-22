@@ -13,6 +13,7 @@ use App\Models\Reference;
 use App\Models\Training;
 use App\Models\Application;
 use App\Models\Job;
+use App\Models\User;
 use Inertia\Inertia;
 
 
@@ -212,7 +213,12 @@ class ApplicantController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $applicant = $user->applicant;
+        $applicant = $user->applicant ? $user->applicant->load([
+            'address',
+            'educations',
+            'workExperiences',
+            'eligibilities'
+        ]) : null;
 
         if (!$applicant) {
             return redirect()->route('applicant.profile.create')
@@ -224,12 +230,7 @@ class ApplicantController extends Controller
 
         return inertia::render('Applicant/Dashboard',[
             'user' => $user,
-            'applicant' =>$applicant->load([
-                'address',
-                'educations',
-                'workExperiences',
-                'eligibilities'
-            ]),
+            'applicant' =>$applicant,
             'jobs' => $jobs,
             'applications' => $applications,
         ]);
